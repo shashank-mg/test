@@ -4,12 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import App from './App';
 import HomeScreen from './screens/HomeScreen';
+import ReportScreen from './screens/ReportScreen';
 import './assests/index.css'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />} >
       <Route path="/" index={true} element={<HomeScreen />} />
+      <Route path="/product/:id"  element={<ReportScreen />} />
     </Route>
   )
 )
