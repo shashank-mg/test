@@ -1,23 +1,18 @@
-import { useState, useEffect } from "react";
 import { Row, Col, Card, Image, Button, ListGroup } from "react-bootstrap";
 import { Link, useParams } from 'react-router-dom';
-import axios from "axios";
+import { useGetDetailsQuery } from "../slices/detailsApiSlice";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 
-const ReportScreen = () => {    
-    const [product, setProduct] = useState({});   
-    
+const ReportScreen = () => { 
     const { id: productId } = useParams();
-    
-    useEffect(() => {
-      const fetchProduct = async () => {
-        const { data } = await axios.get(`/api/products/${productId}`);
-        setProduct(data);
-      }
-        fetchProduct();
-    }, [productId]);
-
-
+    const { data: product, isLoading, error } = useGetDetailsQuery(productId);
     return (
+    <>
+    {
+    isLoading ? ( <Loader /> ) 
+    : error ? ( <Message variant="danger">{error?.data?.message || error.error}</Message>) : 
+    (
     <>
     <Link className='btn btn-light my-3' to='/'>Go Back</Link> 
     <Row>
@@ -66,7 +61,10 @@ const ReportScreen = () => {
         </Col>
     </Row>   
     </>
-  )
+          ) }
+    
+    </>
+    )
 }
 
 export default ReportScreen
